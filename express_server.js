@@ -3,7 +3,7 @@ const app = express();
 const port = 8080;
 const bodyParser = require('body-parser');
 
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded({ extended: true }));
 
 app.set("view engine", "ejs");
 
@@ -11,8 +11,8 @@ function generateRandomString() {
   const date = Date.now();
   dateStr = Math.round(date / Math.pow(10, 6)).toString();
   return dateStr;
+  // return 'abcdef';
 }
-generateRandomString();
 
 const urlDatabase = {
   "b2xVn2": "http://www.lighthouselabs.ca",
@@ -24,7 +24,7 @@ app.post("/urls", (req, res) => {
   // res.send("Ok");         // Respond with 'Ok' (we will replace this)
   const shortUrlString = generateRandomString();
   urlDatabase[shortUrlString] = req.body.longURL;
-  res.redirect('/urls');
+  res.redirect('/urls/' + shortUrlString);
 });
 
 app.get("/urls/new", (req, res) => {
@@ -56,12 +56,12 @@ app.get("/hello", (req, res) => {
 app.get("/set", (req, res) => {
   const a = 1;
   res.send(`a = ${a}`);
- });
- 
- app.get("/fetch", (req, res) => {
+});
+
+app.get("/fetch", (req, res) => {
   //will give an error
   res.send(`a = ${a}`);
- });
+});
 
 app.listen(port, () => {
   console.log(`App listening on port ${port}`);
