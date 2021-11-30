@@ -12,7 +12,7 @@ app.set("view engine", "ejs");
 
 function generateRandomString() {
   const date = Date.now();
-  dateStr = Math.round(date / Math.pow(10, 6)).toString();
+  const dateStr = Math.round((date * Math.random() * 2) / Math.pow(10, 6)).toString();
   return dateStr;
   // return 'abcdef';
 }
