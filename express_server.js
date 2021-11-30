@@ -49,7 +49,8 @@ app.post("/urls", (req, res) => {
   // res.send("Ok");         // Respond with 'Ok' (we will replace this)
   const shortUrlString = generateRandomString();
   urlDatabase[shortUrlString] = req.body.longURL;
-  res.redirect('/urls/' + shortUrlString);
+  // res.redirect('/urls/' + shortUrlString);
+  res.redirect('/urls');
 });
 
 app.post("/login", (req, res) => {
