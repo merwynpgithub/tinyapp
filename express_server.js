@@ -2,8 +2,11 @@ const express = require('express');
 const app = express();
 const port = 8080;
 const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser')
 
 app.use(bodyParser.urlencoded({ extended: true }));
+
+app.use(cookieParser());
 
 app.set("view engine", "ejs");
 
@@ -30,11 +33,13 @@ app.post("/urls/:shortURL", (req, res) => {
     urlDatabase[req.params.shortURL] = req.body.editlongURL;
     const templateVars = { shortURL: req.params.shortURL, longURL: req.body.editlongURL };
     console.log(templateVars);
+    templateVars["username"] = req.cookies["username"];
     res.render("urls_show", templateVars);
     return;
   };
   const templateVars = { shortURL: req.params.shortURL, longURL: urlDatabase[req.params.shortURL] };
   console.log(templateVars);
+  templateVars["username"] = req.cookies["username"];
   res.render("urls_show", templateVars);
   // res.redirect('/urls');
 });
@@ -44,11 +49,29 @@ app.post("/urls", (req, res) => {
   // res.send("Ok");         // Respond with 'Ok' (we will replace this)
   const shortUrlString = generateRandomString();
   urlDatabase[shortUrlString] = req.body.longURL;
-  res.redirect('/urls/' + shortUrlString);
+  // res.redirect('/urls/' + shortUrlString);
+  res.redirect('/urls');
+});
+
+app.post("/login", (req, res) => {
+  res.cookie("username", req.body.username);
+  const templateVars = {
+    username: req.cookies["username"],
+  };
+  // res.render("urls_index", templateVars);
+  res.redirect('/urls');
+});
+
+app.post("/logout", (req, res) => {
+  res.clearCookie("username");
+  res.redirect('/urls');
 });
 
 app.get("/urls/new", (req, res) => {
-  res.render("urls_new");
+  const templateVars = {
+    username: req.cookies["username"],
+  };
+  res.render("urls_new", templateVars);
 });
 
 app.get('/urls/:shortURL', (req, res) => {
@@ -60,6 +83,7 @@ app.get('/urls/:shortURL', (req, res) => {
 
 app.get('/urls', (req, res) => {
   const templateVars = { urls: urlDatabase };
+  templateVars["username"] = req.cookies["username"];
   res.render("urls_index", templateVars);
 });
 
