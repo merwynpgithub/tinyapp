@@ -36,13 +36,13 @@
             <td>
               <% const editURL = "/urls/" + url %>
               <form method="POST" action=<%= editURL %>>
-                <button style="border: 1px solid blue; color: blue; background-color: white;">Edit</button>
+                <button class="btn" style="border: 1px solid blue; color: blue; background-color: white;">Edit</button>
               </form>
             </td>
             <td>
               <% const delURL = "/urls/" + url + "/delete" %>
               <form method="POST" action=<%= delURL %>>
-                <button style="border: 1px solid red; color: red; background-color: white;">Delete</button>
+                <button class="btn" style="border: 1px solid red; color: red; background-color: white;">Delete</button>
               </form>
             </td>
           </tr>
