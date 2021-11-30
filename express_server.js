@@ -53,21 +53,22 @@ app.post("/urls", (req, res) => {
 });
 
 app.post("/login", (req, res) => {
-  console.log(req.body);
   res.cookie("username", req.body.username);
-  console.log(req.cookies.username);
   const templateVars = {
     username: req.cookies["username"],
-    // ... any other vars
   };
   // res.render("urls_index", templateVars);
+  res.redirect('/urls');
+});
+
+app.post("/logout", (req, res) => {
+  res.clearCookie("username");
   res.redirect('/urls');
 });
 
 app.get("/urls/new", (req, res) => {
   const templateVars = {
     username: req.cookies["username"],
-    // ... any other vars
   };
   res.render("urls_new", templateVars);
 });
