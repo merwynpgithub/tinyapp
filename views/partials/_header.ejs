@@ -15,12 +15,12 @@
       <% if (!locals.username) {%>
         <form method="POST" action="/login">
           <input type="text" name="username" placeholder="username">
-          <button type="submit" style="background-color: transparent; border: 1px solid black;">Login</button>
+          <button class="btn" type="submit" style="background-color: transparent; border: 1px solid black;">Login</button>
         </form>
         <% } else { %>
           <form method="POST" action="/logout">
             <%= locals.username %>
-            <button type="submit" style="background-color: transparent; border: 1px solid black;">Logout</button>
+            <button class="btn" type="submit" style="background-color: transparent; border: 1px solid black;">Logout</button>
           </form>
           <% } %>
     </div>
