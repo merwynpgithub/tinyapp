@@ -34,7 +34,8 @@ app.post("/urls/:shortURL", (req, res) => {
     const templateVars = { shortURL: req.params.shortURL, longURL: req.body.editlongURL };
     console.log(templateVars);
     templateVars["username"] = req.cookies["username"];
-    res.render("urls_show", templateVars);
+    // res.render("urls_show", templateVars);
+    res.redirect('/urls');
     return;
   };
   const templateVars = { shortURL: req.params.shortURL, longURL: urlDatabase[req.params.shortURL] };
