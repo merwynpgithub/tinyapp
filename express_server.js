@@ -46,14 +46,14 @@ app.post("/urls/:shortURL", (req, res) => {
     urlDatabase[req.params.shortURL] = req.body.editlongURL;
     const templateVars = { shortURL: req.params.shortURL, longURL: req.body.editlongURL };
     console.log(templateVars);
-    templateVars["username"] = req.cookies["username"];
+    // templateVars["username"] = req.cookies["username"];
     // res.render("urls_show", templateVars);
     res.redirect('/urls');
     return;
   };
   const templateVars = { shortURL: req.params.shortURL, longURL: urlDatabase[req.params.shortURL] };
   console.log(templateVars);
-  templateVars["username"] = req.cookies["username"];
+  templateVars["username"] = users[req.cookies["userId"]];
   res.render("urls_show", templateVars);
   // res.redirect('/urls');
 });
@@ -70,26 +70,29 @@ app.post("/urls", (req, res) => {
 app.post("/login", (req, res) => {
   res.cookie("username", req.body.username);
   const templateVars = {
-    username: req.cookies["username"],
+    // username: req.cookies["username"],
+    username: users[req.cookies["userId"]]
   };
   // res.render("urls_index", templateVars);
   res.redirect('/urls');
 });
 
 app.post("/logout", (req, res) => {
-  res.clearCookie("username");
+  res.clearCookie("userId");
   res.redirect('/urls');
 });
 
 app.post("/register", (req, res) => {
   const email = req.body.email;
   const password = req.body.password;
+
   //HTML5 form required validates email and password
   //Check if email already exists
   const user = findUserEmail(email, users);
   if (user) {
     return res.status(400).send('Email address is already in use.');
   }
+  
   //add new email to users object
   const id = Math.round(Math.random() * 500) + 29;
   users[id] = { id, email, password };
@@ -99,7 +102,7 @@ app.post("/register", (req, res) => {
 
 app.get("/urls/new", (req, res) => {
   const templateVars = {
-    username: req.cookies["username"],
+    username: users[req.cookies["userId"]],
   };
   res.render("urls_new", templateVars);
 });

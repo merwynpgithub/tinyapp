@@ -19,7 +19,7 @@
         </form>
         <% } else { %>
           <form method="POST" action="/logout">
-            <%= locals.username %>
+            <%= locals.username.email %>
             <button class="btn" type="submit" style="background-color: transparent; border: 1px solid black;">Logout</button>
           </form>
           <% } %>
