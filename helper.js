@@ -7,4 +7,4 @@ const findUserEmail = (email, users) => {
   return null;
 };
 
-module.exports = findUserEmail;
+module.exports = { findUserEmail };

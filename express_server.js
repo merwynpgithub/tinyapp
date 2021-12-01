@@ -15,7 +15,7 @@ const users = {
     password: "pass2"
   }
 };
-const findUserEmail = require('./helper');
+const { findUserEmail } = require('./helper');
 
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -90,6 +90,11 @@ app.post("/register", (req, res) => {
   if (user) {
     return res.status(400).send('Email address is already in use.');
   }
+  //add new email to users object
+  const id = Math.round(Math.random() * 500) + 29;
+  users[id] = { id, email, password };
+  res.cookie('userId', users[id].id);
+  res.redirect('/urls');
 });
 
 app.get("/urls/new", (req, res) => {
