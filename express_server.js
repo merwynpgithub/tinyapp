@@ -92,7 +92,7 @@ app.post("/register", (req, res) => {
   if (user) {
     return res.status(400).send('Email address is already in use.');
   }
-  
+
   //add new email to users object
   const id = Math.round(Math.random() * 500) + 29;
   users[id] = { id, email, password };
@@ -116,7 +116,7 @@ app.get('/urls/:shortURL', (req, res) => {
 
 app.get('/urls', (req, res) => {
   const templateVars = { urls: urlDatabase };
-  templateVars["username"] = req.cookies["username"];
+  templateVars["username"] = users[req.cookies["userId"]];
   res.render("urls_index", templateVars);
 });
 
