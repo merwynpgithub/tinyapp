@@ -2,7 +2,20 @@ const express = require('express');
 const app = express();
 const port = 8080;
 const bodyParser = require('body-parser');
-const cookieParser = require('cookie-parser')
+const cookieParser = require('cookie-parser');
+const users = { 
+  "user1": {
+    id: "user1", 
+    email: "user1@example.com", 
+    password: "pass1"
+  },
+ "user2": {
+    id: "user2", 
+    email: "user2@example.com", 
+    password: "pass2"
+  }
+};
+const findUserEmail = require('./helper');
 
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -66,6 +79,17 @@ app.post("/login", (req, res) => {
 app.post("/logout", (req, res) => {
   res.clearCookie("username");
   res.redirect('/urls');
+});
+
+app.post("/register", (req, res) => {
+  const email = req.body.email;
+  const password = req.body.password;
+  //HTML5 form required validates email and password
+  //Check if email already exists
+  const user = findUserEmail(email, users);
+  if (user) {
+    return res.status(400).send('Email address is already in use.');
+  }
 });
 
 app.get("/urls/new", (req, res) => {
