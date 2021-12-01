@@ -13,10 +13,14 @@
     </div>
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
       <% if (!locals.username) {%>
-        <form method="POST" action="/login">
+        <!-- <form method="POST" action="/login">
           <input type="text" name="username" placeholder="username">
           <button class="btn" type="submit" style="background-color: transparent; border: 1px solid black;">Login</button>
-        </form>
+        </form> -->
+        <div class="navbar-nav">
+          <a class="nav-link" style="color: blue;" href="/register">Sign Up</a>
+          <a class="nav-link" style="color: black;" href="/login">Login</a>
+        </div>
         <% } else { %>
           <form method="POST" action="/logout">
             <%= locals.username.email %>
