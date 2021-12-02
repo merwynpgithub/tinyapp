@@ -35,13 +35,12 @@ app.post("/urls/:shortURL", (req, res) => {
   if (req.body.editlongURL) {
     urlDatabase[req.params.shortURL] = req.body.editlongURL;
     const templateVars = { shortURL: req.params.shortURL, longURL: req.body.editlongURL };
-    console.log(templateVars);
+    // console.log(templateVars);
     // res.render("urls_show", templateVars);
     res.redirect('/urls');
     return;
   };
   const templateVars = { shortURL: req.params.shortURL, longURL: urlDatabase[req.params.shortURL] };
-  console.log(templateVars);
   templateVars["username"] = users[req.cookies["userId"]];
   res.render("urls_show", templateVars);
   // res.redirect('/urls');
