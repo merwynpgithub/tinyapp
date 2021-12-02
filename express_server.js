@@ -68,7 +68,6 @@ app.post("/urls", (req, res) => {
 });
 
 app.post("/login", (req, res) => {
-  res.cookie("username", req.body.username);
   const templateVars = {
     // username: req.cookies["username"],
     username: users[req.cookies["userId"]]
