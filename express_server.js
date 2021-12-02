@@ -68,6 +68,16 @@ app.post("/urls", (req, res) => {
 });
 
 app.post("/login", (req, res) => {
+  const email = req.body.email;
+  const password = req.body.password;
+
+  //HTML5 form required validates email and password
+  const user = findUserEmail(email, users);
+  //compare entered password with one in the users object
+  if (user.password !== password) {
+    return res.status(403).send('Password incorrect. Please try again');
+  }
+  res.cookie('userId', user.id);
   const templateVars = {
     // username: req.cookies["username"],
     username: users[req.cookies["userId"]]
@@ -78,7 +88,7 @@ app.post("/login", (req, res) => {
 
 app.post("/logout", (req, res) => {
   res.clearCookie("userId");
-  res.redirect('/urls');
+  res.redirect('/login');
 });
 
 app.post("/register", (req, res) => {
