@@ -7,4 +7,11 @@ const findUserEmail = (email, users) => {
   return null;
 };
 
-module.exports = { findUserEmail };
+const generateRandomString = function() {
+  const date = Date.now();
+  const dateStr = Math.round((date * Math.random() * 2) / Math.pow(10, 6)).toString();
+  return dateStr;
+  // return 'abcdef';
+}
+
+module.exports = { findUserEmail, generateRandomString };

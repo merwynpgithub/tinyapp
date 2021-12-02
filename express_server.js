@@ -15,7 +15,7 @@ const users = {
     password: "pass2"
   }
 };
-const { findUserEmail } = require('./helper');
+const { findUserEmail, generateRandomString } = require('./helper');
 
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -23,12 +23,7 @@ app.use(cookieParser());
 
 app.set("view engine", "ejs");
 
-function generateRandomString() {
-  const date = Date.now();
-  const dateStr = Math.round((date * Math.random() * 2) / Math.pow(10, 6)).toString();
-  return dateStr;
-  // return 'abcdef';
-}
+
 
 const urlDatabase = {
   "b2xVn2": "http://www.lighthouselabs.ca",
