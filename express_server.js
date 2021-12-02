@@ -73,6 +73,10 @@ app.post("/login", (req, res) => {
 
   //HTML5 form required validates email and password
   const user = findUserEmail(email, users);
+  //if user is null show 403 status but suggest to register
+  if (!user) {
+    return res.status(403).send('Login not found. Please try again or register');
+  }
   //compare entered password with one in the users object
   if (user.password !== password) {
     return res.status(403).send('Password incorrect. Please try again');
