@@ -16,19 +16,14 @@ const users = {
   }
 };
 const { findUserEmail, generateRandomString } = require('./helper');
-
-app.use(bodyParser.urlencoded({ extended: true }));
-
-app.use(cookieParser());
-
-app.set("view engine", "ejs");
-
-
-
 const urlDatabase = {
   "b2xVn2": "http://www.lighthouselabs.ca",
   "9sm5xK": "http://www.google.com"
 };
+
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cookieParser());
+app.set("view engine", "ejs");
 
 app.post("/urls/:shortURL/delete", (req, res) => {
   const shortUrlString = req.params.shortURL;
@@ -53,8 +48,7 @@ app.post("/urls/:shortURL", (req, res) => {
 });
 
 app.post("/urls", (req, res) => {
-  console.log(req.body);  // Log the POST request body to the console
-  // res.send("Ok");         // Respond with 'Ok' (we will replace this)
+  // console.log(req.body);  // Log the POST request body to the console
   const shortUrlString = generateRandomString();
   urlDatabase[shortUrlString] = req.body.longURL;
   // res.redirect('/urls/' + shortUrlString);
@@ -77,7 +71,6 @@ app.post("/login", (req, res) => {
   }
   res.cookie('userId', user.id);
   const templateVars = {
-    // username: req.cookies["username"],
     username: users[req.cookies["userId"]]
   };
   // res.render("urls_index", templateVars);
