@@ -23,6 +23,7 @@ const urlDatabase = {
 };
 const { findUserEmail, generateRandomString } = require('./helper');
 
+//helper to sort UrlDatabase as per particular UserId
 const urlsForUser = (id) => {
   const urlDataUser = {};
   for (const data in urlDatabase) {
@@ -37,6 +38,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.set("view engine", "ejs");
 
+//POST
 app.post("/urls/:shortURL/delete", (req, res) => {
   const shortUrlString = req.params.shortURL;
   delete urlDatabase[shortUrlString];
@@ -114,6 +116,8 @@ app.post("/register", (req, res) => {
   res.redirect('/urls');
 });
 
+
+//GET endpoints
 app.get("/urls/new", (req, res) => {
   const templateVars = {
     username: users[req.cookies["userId"]],
