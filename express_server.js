@@ -26,14 +26,12 @@ app.post("/urls/:shortURL", (req, res) => {
     const templateVars = { shortURL: req.params.shortURL, longURL: req.body.editlongURL };
     // console.log(templateVars);
     // res.render("urls_show", templateVars);
-    res.cookie("visits", urlDatabase[req.params.shortURL].visits);
     templateVars["visits"] = urlDatabase[req.params.shortURL].visits;
     res.redirect('/urls');
     return;
   };
   const templateVars = { shortURL: req.params.shortURL, longURL: urlDatabase[req.params.shortURL].longURL };
   templateVars["username"] = users[req.cookies["userId"]];
-  res.cookie("visits", urlDatabase[req.params.shortURL].visits);
   templateVars["visits"] = urlDatabase[req.params.shortURL].visits;
   res.render("urls_show", templateVars);
   // res.redirect('/urls');
@@ -48,7 +46,6 @@ app.post("/urls", (req, res) => {
     visits: 0
   };
   // res.redirect('/urls/' + shortUrlString);
-  res.cookie("visits", urlDatabase[shortUrlString].visits);
   res.redirect('/urls');
 });
 
@@ -76,7 +73,6 @@ app.post("/login", (req, res) => {
 
 app.post("/logout", (req, res) => {
   res.clearCookie("userId");
-  res.clearCookie("visits");
   res.redirect('/login');
 });
 
@@ -123,8 +119,7 @@ app.get('/urls/:shortURL', (req, res) => {
   //Visits feature works but still needs to be improved.
   urlDatabase[req.params.shortURL].visits += 1;
   // console.log(urlDatabase[req.params.shortURL].visits);
-  res.cookie('visits', urlDatabase[req.params.shortURL].visits);
-  templateVars["visits"] = req.cookies["visits"];
+  templateVars["visits"] = urlDatabase[req.params.shortURL].visits;
   res.redirect(templateVars.longURL);
 });
 
