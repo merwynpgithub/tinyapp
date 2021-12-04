@@ -1,13 +1,14 @@
+const bcrypt = require('bcrypt');
 const users = { 
   "user1": {
     id: "user1", 
     email: "user1@example.com", 
-    password: "pass1"
+    password: bcrypt.hashSync("pass1", 10)
   },
  "user2": {
     id: "user2", 
     email: "user2@example.com", 
-    password: "pass2"
+    password: bcrypt.hashSync("pass2", 10)
   }
 };
 const urlDatabase = {
