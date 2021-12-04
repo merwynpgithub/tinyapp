@@ -16,11 +16,17 @@
     <div class="card text-center">
       <div class="card-header"></div>
       <div class="card-body">
-        <h5 class="card-title">TinyURL for: <%= locals.longURL %></h5>
+        <h5 class="card-title">TinyURL for: <a href="<%= locals.longURL %>">
+          <%= locals.longURL %>
+        </a></h5>
+        <% const dispURL = "/urls/" + shortURL %>
         <p class="card-text">Short URL: 
-          <a href="<%= locals.longURL %>">
+          <a href=<%=dispURL %>>
             <%= shortURL %>
           </a>
+        </p>
+        <p>
+          Number of visits for <a href=<%=dispURL %>><%= shortURL %></a>: <%=locals.visits %>
         </p>
         <h5 class="card-title">Edit</h5>
         <p class="card-text">

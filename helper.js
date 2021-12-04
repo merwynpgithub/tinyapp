@@ -11,10 +11,10 @@ const users = {
   }
 };
 const urlDatabase = {
-  b6UTxQ: { longURL: "https://www.tsn.ca", userID: "user2" },
-  i3BoGr: { longURL: "https://www.google.ca", userID: "user2" },
-  b2xVn2: {longURL: "http://www.lighthouselabs.ca", userID: "user1" },
-  psm5xK: {longURL: "http://www.google.com", userID: "user1" }
+  b6UTxQ: { longURL: "https://www.tsn.ca", userID: "user2", visits: 0 },
+  i3BoGr: { longURL: "https://www.google.ca", userID: "user2", visits: 0 },
+  b2xVn2: {longURL: "http://www.lighthouselabs.ca", userID: "user1", visits: 0 },
+  psm5xK: {longURL: "http://www.google.com", userID: "user1", visits: 0 }
 };
 const findUserEmail = (email, users) => {
   for (const userId in users) {

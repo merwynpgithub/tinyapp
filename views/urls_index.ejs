@@ -28,7 +28,8 @@
           <% for(let url in urls) { %>
             <tr>
               <td>
-                <a href="<%= urls[url].longURL %>">
+                <% const shortURL="/urls/" + url %>
+                <a href=<%=shortURL %>>
                   <%= url %>
                 </a>
               </td>
