@@ -29,7 +29,7 @@ app.post("/urls/:shortURL", (req, res) => {
     templateVars["visits"] = urlDatabase[req.params.shortURL].visits;
     res.redirect('/urls');
     return;
-  };
+  }
   const templateVars = { shortURL: req.params.shortURL, longURL: urlDatabase[req.params.shortURL].longURL };
   templateVars["username"] = users[req.cookies["userId"]];
   templateVars["visits"] = urlDatabase[req.params.shortURL].visits;
