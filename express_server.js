@@ -144,7 +144,7 @@ app.get('/login', (req, res) => {
 });
 
 app.get('/', (req, res) => {
-  res.send("Hello");
+  res.redirect("/urls");
 });
 
 app.get("/urls.json", (req, res) => {
@@ -160,11 +160,12 @@ app.get("/set", (req, res) => {
   res.send(`a = ${a}`);
 });
 
+/* //Testing get requests
 app.get("/fetch", (req, res) => {
   //will give an error
   res.send(`a = ${a}`);
 });
-
+*/
 app.listen(port, () => {
   console.log(`App listening on port ${port}`);
 });
