@@ -63,7 +63,8 @@ app.post("/login", (req, res) => {
   const user = findUserEmail(email, users);
   //if user is null show 403 status but suggest to register
   if (!user) {
-    return res.status(403).send('Login not found. Please try again or register');
+    return res.status(403).render('urls_login', { error: 'Login not found. Please try again or register' })
+    // return res.status(403).send('Login not found. Please try again or register');
   }
   //compare entered password with one in the users object
   const isPasswordValid = bcrypt.compareSync(password, user.password);
@@ -83,7 +84,7 @@ app.post("/logout", (req, res) => {
   // res.clearCookie("userId");
   req.session = null;
   res.redirect('/login');
-  
+
 });
 
 app.post("/register", (req, res) => {
@@ -99,7 +100,8 @@ app.post("/register", (req, res) => {
 
   //add new email to users object
   const id = Math.round(Math.random() * 500) + 29;
-  users[id] = { id, email, 
+  users[id] = {
+    id, email,
     password: bcrypt.hashSync(password, 10)
   };
   // res.cookie('userId', users[id].id);
@@ -125,14 +127,55 @@ app.get("/urls/new", (req, res) => {
 });
 
 app.get('/urls/:shortURL', (req, res) => {
+  //if not logged in suggest login or register
+  if (!req.session.userId) {
+    return res.status(400).send('Not logged in! Please login or register.');
+  }
+  //if shortUrl doesnt exist return "cannot get short Url"
+  const shortLink = Object.keys(urlDatabase);
+  if (!shortLink.includes(req.params.shortURL)) {
+    return res.status(404).send(`Cannot get /urls/${req.params.shortURL}. Short Url doesn't exist.`);
+  }
+
   const templateVars = { shortURL: req.params.shortURL, longURL: urlDatabase[req.params.shortURL].longURL };
-  // res.render("urls_show", templateVars);  //redirects to show
-  //redirect to the actual url website
+  templateVars["username"] = users[req.session.userId];
+
+
+  //check that only logged in users can access their own shortUrl
+  const urlData = urlsForUser(req.session.userId);
+  templateVars["urls"] = urlData;
+  
+  if (!templateVars["urls"][req.params.shortURL]) {
+    return res.status(403).send('Not authorized to use the short Url.');
+  }
+  
+  res.render("urls_show", templateVars);
+});
+
+app.get('/u/:shortURL', (req, res) => {
+  //if not logged in suggest login or register
+  // if (!req.session.userId) {
+  //   return res.status(400).send('Not logged in! Please login or register.');
+  // }
+  //if shortUrl doesnt exist return cannot get short Url
+  const shortLink = Object.keys(urlDatabase);
+  if (!shortLink.includes(req.params.shortURL)) {
+    return res.status(404).render('error', { error: `Cannot get /u/${req.params.shortURL}. Short Url doesn't exist.` });
+    // return res.status(404).send(`Cannot get /u/${req.params.shortURL}. Short Url doesn't exist.`);
+  }
+  const templateVars = { shortURL: req.params.shortURL, longURL: urlDatabase[req.params.shortURL].longURL };
+  templateVars["username"] = users[req.session.userId];
+
+  //check that only logged in users can access their own shortUrl
+  const urlData = urlsForUser(req.session.userId);
+  templateVars["urls"] = urlData;
+  
+  // if (!templateVars["urls"][req.params.shortURL]) {
+  //   return res.status(403).send('Not authorized to use the short Url.');
+  // }
 
   //Stretch Activity: Add no of visits to shortURL.
-  //Visits feature works but still needs to be improved.
   urlDatabase[req.params.shortURL].visits += 1;
-  // console.log(urlDatabase[req.params.shortURL].visits);
   templateVars["visits"] = urlDatabase[req.params.shortURL].visits;
   res.redirect(templateVars.longURL);
 });
@@ -154,7 +197,7 @@ app.get('/register', (req, res) => {
 });
 
 app.get('/login', (req, res) => {
-  res.render("urls_login");
+  res.render("urls_login", {error: null});
 });
 
 app.get('/', (req, res) => {

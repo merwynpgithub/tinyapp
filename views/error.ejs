@@ -8,39 +8,16 @@
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
     integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
-  <title>URL - TinyApp Example</title>
+  <title>Login - TinyApp</title>
 </head>
 
 <body>
-  <%- include('partials/_header') %>
-    <div class="card text-center">
-      <div class="card-header"></div>
-      <div class="card-body">
-        <h5 class="card-title">TinyURL for: <a href="<%= locals.longURL %>">
-          <%= locals.longURL %>
-        </a></h5>
-        <% const dispURL = "/u/" + shortURL %>
-        <p class="card-text">Short URL: 
-          <a href=<%=dispURL %>>
-            <%= shortURL %>
-          </a>
-        </p>
-        <p>
-          Number of visits for <a href=<%=dispURL %>><%= shortURL %></a>: <%=locals.visits %>
-        </p>
-        <h5 class="card-title">Edit</h5>
-        <p class="card-text">
-          <% const editURL = "/urls/" + shortURL %>
-          <form method="POST" action=<%= editURL %>>
-            <label for="editlongURL">New URL:</label>
-            <input type="text" name="editlongURL" placeholder="http://"
-            style="width: 350px; margin: 1em">
-            <button type="submit" class="btn btn-primary">Submit</button>
-          </form>
-        </p>
+    <main style="margin: 1em;">
+      <h3>Error</h3>
+      <div style="color: red; font-size: large;" >
+        <%= error %>
       </div>
-      <div class="card-footer text-muted"></div>
-    </div>
+    </main>
     <!-- Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
       integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
