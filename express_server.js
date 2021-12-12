@@ -69,7 +69,8 @@ app.post("/login", (req, res) => {
   //compare entered password with one in the users object
   const isPasswordValid = bcrypt.compareSync(password, user.password);
   if (!isPasswordValid) {
-    return res.status(403).send('Password incorrect. Please try again');
+    return res.status(403).render('urls_login', { error: 'Password incorrect. Please try again' })
+    // return res.status(403).send('Password incorrect. Please try again');
   }
   // res.cookie('userId', user.id);
   req.session.userId = user.id;
